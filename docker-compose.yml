@@ -1,0 +1,36 @@
+version: '3.8'
+
+services:
+  minecraft:
+    extends:
+      file: common-compose.yml
+      service: minecraft-common
+    volumes:
+      - minecraft-data:/data
+  backup:
+    depends_on:
+      - minecraft
+    extends:
+      file: backup-compose.yml
+      service: backup
+    volumes:
+      - minecraft-data:/data:ro
+      - ./minecraft-backups:/backups
+      - minecraft-backups:/backups
+    network_mode: "service:minecraft"
+  sftp:
+    depends_on:
+      - minecraft
+      - backup
+    extends:
+      file: backup-compose.yml
+      service: sftp
+    volumes:
+      - minecraft-data:/home/sftp/live
+      - minecraft-backups:/home/sftp/backups
+      - minecraft-ssh:/etc/ssh
+
+volumes:
+  minecraft-data: {}
+  minecraft-backups: {}
+  minecraft-ssh: {}

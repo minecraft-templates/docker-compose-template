@@ -1,0 +1,13 @@
+version: '3.8'
+
+services:
+  backup:
+    image: itzg/mc-backup
+    env_file:
+      - rcon.env
+  sftp:
+    image: atmoz/sftp
+    environment:
+      - SFTP_USERS=sftp
+    ports:
+      - "25522:22"
