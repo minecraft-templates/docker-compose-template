@@ -8,6 +8,6 @@ services:
   sftp:
     image: atmoz/sftp
     environment:
-      - SFTP_USERS=sftp
+      - SFTP_USERS=sftp:enter_your_password_in_here:1001
     ports:
       - "25522:22"
